@@ -57,3 +57,9 @@ func (v *Vector) Cut(i, j int) {
 
 	v.slice = v.slice.Slice(0, v.slice.Len()-cutLen)
 }
+
+func (v *Vector) Delete(i int) {
+	reflect.Copy(v.slice.Slice(i, v.slice.Len()), v.slice.Slice(i+1, v.slice.Len()))
+	v.slice.Index(v.slice.Len() - 1).Set(reflect.Zero(v.typeof))
+	v.slice = v.slice.Slice(0, v.slice.Len()-1)
+}
