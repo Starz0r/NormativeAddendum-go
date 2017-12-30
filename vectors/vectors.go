@@ -63,3 +63,9 @@ func (v *Vector) Delete(i int) {
 	v.slice.Index(v.slice.Len() - 1).Set(reflect.Zero(v.typeof))
 	v.slice = v.slice.Slice(0, v.slice.Len()-1)
 }
+
+func (v *Vector) DeleteNoPreserveOrder(i int) {
+	v.slice.Index(i).Set(v.slice.Index(v.slice.Len() - 1))
+	v.slice.Index(v.slice.Len() - 1).Set(reflect.Zero(v.typeof))
+	v.slice = v.slice.Slice(0, v.slice.Len()-1)
+}
