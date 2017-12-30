@@ -44,3 +44,11 @@ func (v *Vector) Copy() *Vector {
 	reflect.Copy(v2.slice, v.slice)
 	return v2
 }
+
+func (v *Vector) Cut(i, j int) {
+	lastItem := v.slice.Len()
+	cutLen := j - i
+	reflect.Copy(v.slice.Slice(i, lastItem), v.slice.Slice(j, lastItem))
+
+	v.slice = v.slice.Slice(0, v.slice.Len()-cutLen)
+}
