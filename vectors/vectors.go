@@ -48,7 +48,12 @@ func (v *Vector) Copy() *Vector {
 func (v *Vector) Cut(i, j int) {
 	lastItem := v.slice.Len()
 	cutLen := j - i
+
 	reflect.Copy(v.slice.Slice(i, lastItem), v.slice.Slice(j, lastItem))
+
+	for n := v.slice.Len() - cutLen; n < v.slice.Len(); n++ {
+		v.slice.Index(n).Set(reflect.Zero(v.typeof))
+	}
 
 	v.slice = v.slice.Slice(0, v.slice.Len()-cutLen)
 }
