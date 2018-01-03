@@ -69,3 +69,22 @@ func (v *Vector) DeleteNoPreserveOrder(i int) {
 	v.slice.Index(v.slice.Len() - 1).Set(reflect.Zero(v.typeof))
 	v.slice = v.slice.Slice(0, v.slice.Len()-1)
 }
+
+func (v *Vector) Expand(offset, indexes int) {
+	// Zeroed Out, Expander
+	v2 := newVector(v.typeof, indexes, indexes)
+
+	// Empty Vector
+	v3 := newVector(v.typeof, 0, 0)
+
+	//Before Offset
+	bef := v.slice.Slice(0, offset)
+
+	//After Offset
+	aft := v.slice.Slice(offset, v.slice.Len())
+
+	// Expand Operation
+	v.slice = reflect.AppendSlice(v3.slice, bef)
+	v.slice = reflect.AppendSlice(v.slice, v2.slice)
+	v.slice = reflect.AppendSlice(v.slice, aft)
+}
