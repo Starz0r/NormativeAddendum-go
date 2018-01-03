@@ -88,3 +88,7 @@ func (v *Vector) Expand(offset, indexes int) {
 	v.slice = reflect.AppendSlice(v.slice, v2.slice)
 	v.slice = reflect.AppendSlice(v.slice, aft)
 }
+
+func (v *Vector) Extend(indexes int) {
+	v.slice = reflect.Append(v.slice, newVector(v.typeof, indexes, indexes).slice)
+}
