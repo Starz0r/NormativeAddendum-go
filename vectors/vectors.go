@@ -128,3 +128,10 @@ func (v *Vector) Pop() interface{} {
 	x, v.slice = v.slice.Index(0), v.slice.Slice(1, v.slice.Len())
 	return x.Interface()
 }
+
+//PopBack Removes the last element from a vector and returns it
+func (v *Vector) PopBack() interface{} {
+	var x reflect.Value
+	x, v.slice = v.slice.Index(v.slice.Len()-1), v.slice.Slice(0, v.slice.Len()-1)
+	return x.Interface()
+}
