@@ -10,6 +10,7 @@ type Vector struct {
 	typeof reflect.Type
 }
 
+//NewVector Creates a Vector of Type z and returns it
 func NewVector(z interface{}) *Vector {
 	t := reflect.TypeOf(z)
 
@@ -26,10 +27,12 @@ func newVector(t reflect.Type, len, cap int) *Vector {
 	}
 }
 
+//Get Returns the value from the Index in the Vector
 func (v *Vector) Get(index int) interface{} {
 	return v.slice.Index(index)
 }
 
+//Put Sets a element in the vector
 func (v *Vector) Put(element interface{}) {
 
 	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
@@ -39,12 +42,14 @@ func (v *Vector) Put(element interface{}) {
 	v.slice = reflect.Append(v.slice, reflect.ValueOf(element))
 }
 
+//Copy Clones an entire Vector and returns it
 func (v *Vector) Copy() *Vector {
 	v2 := newVector(v.typeof, v.slice.Len(), v.slice.Cap())
 	reflect.Copy(v2.slice, v.slice)
 	return v2
 }
 
+//Cut Removes a section or slice from the Vector
 func (v *Vector) Cut(i, j int) {
 	lastItem := v.slice.Len()
 	cutLen := j - i
@@ -58,18 +63,21 @@ func (v *Vector) Cut(i, j int) {
 	v.slice = v.slice.Slice(0, v.slice.Len()-cutLen)
 }
 
+//Delete Removes a single index from the vector
 func (v *Vector) Delete(i int) {
 	reflect.Copy(v.slice.Slice(i, v.slice.Len()), v.slice.Slice(i+1, v.slice.Len()))
 	v.slice.Index(v.slice.Len() - 1).Set(reflect.Zero(v.typeof))
 	v.slice = v.slice.Slice(0, v.slice.Len()-1)
 }
 
+//DeleteNoPreserveOrder Removes a single index from the vector without preserving order
 func (v *Vector) DeleteNoPreserveOrder(i int) {
 	v.slice.Index(i).Set(v.slice.Index(v.slice.Len() - 1))
 	v.slice.Index(v.slice.Len() - 1).Set(reflect.Zero(v.typeof))
 	v.slice = v.slice.Slice(0, v.slice.Len()-1)
 }
 
+//Expand Increases the size of the vector at the offset with the amount of indexes
 func (v *Vector) Expand(offset, indexes int) {
 	// Zeroed Out, Expander
 	v2 := newVector(v.typeof, indexes, indexes)
@@ -89,10 +97,12 @@ func (v *Vector) Expand(offset, indexes int) {
 	v.slice = reflect.AppendSlice(v.slice, aft)
 }
 
+//Extend Increases the size of the vector by placing new indexes at the end
 func (v *Vector) Extend(indexes int) {
 	v.slice = reflect.Append(v.slice, newVector(v.typeof, indexes, indexes).slice)
 }
 
+//Insert Sets a element in the vector at the offset
 func (v *Vector) Insert(offset int, element interface{}) {
 	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
 		panic(fmt.Sprintf("Insert: cannot insert a %T into a vector of %s", element, v.slice.Type().Elem()))
@@ -103,6 +113,7 @@ func (v *Vector) Insert(offset int, element interface{}) {
 	v.slice.Index(offset).Set(reflect.ValueOf(element))
 }
 
+//InsertVector Sets a vector in the vector at the offset
 func (v *Vector) InsertVector(offset int, vec *Vector) {
 	if vec.typeof != v.slice.Type().Elem() {
 		panic(fmt.Sprintf("InsertVector: cannot insert a %T vector into a vector of %s", vec.slice.Interface(), v.slice.Type().Elem()))
