@@ -102,3 +102,11 @@ func (v *Vector) Insert(offset int, element interface{}) {
 	reflect.Copy(v.slice.Slice(offset+1, v.slice.Len()), v.slice.Slice(offset, v.slice.Len()))
 	v.slice.Index(offset).Set(reflect.ValueOf(element))
 }
+
+func (v *Vector) InsertVector(offset int, vec *Vector) {
+	if vec.typeof != v.slice.Type().Elem() {
+		panic(fmt.Sprintf("InsertVector: cannot insert a %T vector into a vector of %s", vec.slice.Interface(), v.slice.Type().Elem()))
+	}
+
+	v.slice = reflect.AppendSlice(v.slice.Slice(0, offset), reflect.AppendSlice(vec.slice, v.slice.Slice(offset, v.slice.Len())))
+}
