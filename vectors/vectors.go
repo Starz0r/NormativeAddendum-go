@@ -121,3 +121,10 @@ func (v *Vector) InsertVector(offset int, vec *Vector) {
 
 	v.slice = reflect.AppendSlice(v.slice.Slice(0, offset), reflect.AppendSlice(vec.slice, v.slice.Slice(offset, v.slice.Len())))
 }
+
+//Pop Removes the first element from a vector and returns it
+func (v *Vector) Pop() interface{} {
+	var x reflect.Value
+	x, v.slice = v.slice.Index(0), v.slice.Slice(1, v.slice.Len())
+	return x.Interface()
+}
