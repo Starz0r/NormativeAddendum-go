@@ -33,7 +33,7 @@ func (v *Vector) Get(index int) interface{} {
 func (v *Vector) Put(element interface{}) {
 
 	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
-		panic(fmt.Sprintf("Put: cannot put a %T into a slice of %s", element, v.slice.Type().Elem()))
+		panic(fmt.Sprintf("Put: cannot put a %T into a vector of %s", element, v.slice.Type().Elem()))
 	}
 
 	v.slice = reflect.Append(v.slice, reflect.ValueOf(element))
@@ -91,4 +91,14 @@ func (v *Vector) Expand(offset, indexes int) {
 
 func (v *Vector) Extend(indexes int) {
 	v.slice = reflect.Append(v.slice, newVector(v.typeof, indexes, indexes).slice)
+}
+
+func (v *Vector) Insert(offset int, element interface{}) {
+	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
+		panic(fmt.Sprintf("Insert: cannot insert a %T into a vector of %s", element, v.slice.Type().Elem()))
+	}
+
+	v.slice = reflect.Append(v.slice, reflect.ValueOf(0))
+	reflect.Copy(v.slice.Slice(offset+1, v.slice.Len()), v.slice.Slice(offset, v.slice.Len()))
+	v.slice.Index(offset).Set(reflect.ValueOf(element))
 }
