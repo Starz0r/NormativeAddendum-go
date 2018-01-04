@@ -144,3 +144,13 @@ func (v *Vector) PopOut(i int) interface{} {
 	v.slice = v.slice.Slice(0, v.slice.Len()-1)
 	return x
 }
+
+//Push Sets an elements to the back of a vector
+func (v *Vector) Push(element interface{}) {
+
+	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
+		panic(fmt.Sprintf("Put: cannot put a %T into a vector of %s", element, v.slice.Type().Elem()))
+	}
+
+	v.slice = reflect.Append(v.slice, reflect.ValueOf(element))
+}
