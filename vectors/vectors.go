@@ -135,3 +135,12 @@ func (v *Vector) PopBack() interface{} {
 	x, v.slice = v.slice.Index(v.slice.Len()-1), v.slice.Slice(0, v.slice.Len()-1)
 	return x.Interface()
 }
+
+//PopOut Removes the specified element in the index from a vector and returns it
+func (v *Vector) PopOut(i int) interface{} {
+	x := v.slice.Index(i).Interface()
+	reflect.Copy(v.slice.Slice(i, v.slice.Len()), v.slice.Slice(i+1, v.slice.Len()))
+	v.slice.Index(v.slice.Len() - 1).Set(reflect.Zero(v.typeof))
+	v.slice = v.slice.Slice(0, v.slice.Len()-1)
+	return x
+}
