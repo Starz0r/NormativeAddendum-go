@@ -5,4 +5,4 @@ Go Extended Library
 [vectors](https://github.com/Starz0r/go-extlib/tree/master/vectors) - Generic Sliced Data Structures
 
 ## Special Thanks
-[stdio](https://github.com/stdiopt?tab=repositories) - Helped with vectors package
+[stdio](https://github.com/stdiopt?tab=repositories) - Massive help with vectors package
