@@ -179,3 +179,13 @@ func (v *Vector) PushFront(element interface{}) {
 	v2.Push(element)
 	v.slice = reflect.Append(v2.slice, v.slice)
 }
+
+//Modify Changes the index of a vector with a new element
+func (v *Vector) Modify(index int, element interface{}) {
+
+	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
+		panic(fmt.Sprintf("Modify: cannot change a %T into a type of %s", element, v.slice.Type().Elem()))
+	}
+
+	v.slice.Index(index).Set(reflect.ValueOf(element))
+}
