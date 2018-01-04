@@ -147,7 +147,7 @@ func (v *Vector) PopOut(i int) interface{} {
 	return x
 }
 
-//Push Sets an elements to the back of a vector
+//Push Sets an element to the back of a vector
 func (v *Vector) Push(element interface{}) {
 
 	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
@@ -155,4 +155,11 @@ func (v *Vector) Push(element interface{}) {
 	}
 
 	v.slice = reflect.Append(v.slice, reflect.ValueOf(element))
+}
+
+//PushFront Sets an element to the front of a vector
+func (v *Vector) PushFront(element interface{}) {
+	v2 := newVector(v.typeof, 0, 0)
+	v2.Push(element)
+	v.slice = reflect.Append(v2.slice, v.slice)
 }
