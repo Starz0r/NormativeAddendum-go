@@ -44,6 +44,22 @@ func (v *Vector) Put(elements ...interface{}) {
 	}
 }
 
+//PutFront Sets multiple element in the front of the vector
+func (v *Vector) PutFront(elements ...interface{}) {
+
+	v2 := newVector(v.typeof, 0, 0)
+
+	for i := range elements {
+		if reflect.ValueOf(elements[i]).Type() != v.slice.Type().Elem() {
+			panic(fmt.Sprintf("Put: cannot put a %T into a vector of %s", elements[i], v.slice.Type().Elem()))
+		}
+
+		v2.slice = reflect.Append(v2.slice, reflect.ValueOf(elements[i]))
+	}
+
+	v.slice = reflect.Append(v2.slice, v.slice)
+}
+
 //Copy Clones an entire Vector and returns it
 func (v *Vector) Copy() *Vector {
 	v2 := newVector(v.typeof, v.slice.Len(), v.slice.Cap())
