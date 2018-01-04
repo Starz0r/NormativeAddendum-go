@@ -32,14 +32,16 @@ func (v *Vector) Get(index int) interface{} {
 	return v.slice.Index(index)
 }
 
-//Put Sets a element in the vector
-func (v *Vector) Put(element interface{}) {
+//Put Sets multiple element in the vector
+func (v *Vector) Put(elements ...interface{}) {
 
-	if reflect.ValueOf(element).Type() != v.slice.Type().Elem() {
-		panic(fmt.Sprintf("Put: cannot put a %T into a vector of %s", element, v.slice.Type().Elem()))
+	for i := range elements {
+		if reflect.ValueOf(elements[i]).Type() != v.slice.Type().Elem() {
+			panic(fmt.Sprintf("Put: cannot put a %T into a vector of %s", elements[i], v.slice.Type().Elem()))
+		}
+
+		v.slice = reflect.Append(v.slice, reflect.ValueOf(elements[i]))
 	}
-
-	v.slice = reflect.Append(v.slice, reflect.ValueOf(element))
 }
 
 //Copy Clones an entire Vector and returns it
