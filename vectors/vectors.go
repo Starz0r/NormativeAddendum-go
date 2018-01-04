@@ -5,18 +5,46 @@ import (
 	"reflect"
 )
 
+var Bool = reflect.TypeOf(true)
+var Int = reflect.TypeOf(int(1))
+var Int8 = reflect.TypeOf(int8(1))
+var Int16 = reflect.TypeOf(int16(1))
+var Int32 = reflect.TypeOf(int32(1))
+var Int64 = reflect.TypeOf(int64(1))
+var Uint = reflect.TypeOf(uint(1))
+var Uint8 = reflect.TypeOf(uint8(1))
+var Uint16 = reflect.TypeOf(uint16(1))
+var Uint32 = reflect.TypeOf(uint32(1))
+var Uint64 = reflect.TypeOf(uint64(1))
+var Uintptr = reflect.TypeOf(uintptr(1))
+var Float32 = reflect.TypeOf(float32(1.0))
+var Float64 = reflect.TypeOf(float64(1))
+var Complex64 = reflect.TypeOf(complex64(1))
+var Complex128 = reflect.TypeOf(complex128(1))
+
+//var Array
+//var Chan
+//var Func
+//var Interface
+//var Map
+//var Ptr
+//var Slice
+var String = reflect.TypeOf(string(""))
+
+//var Struct
+//var UnsafePointer
+
 type Vector struct {
 	slice  reflect.Value
 	typeof reflect.Type
 }
 
-//NewVector Creates a Vector of Type z and returns it
-func NewVector(z interface{}) *Vector {
-	t := reflect.TypeOf(z)
+//NewVector Creates a Vector of Type T and returns it
+func NewVector(T reflect.Type) *Vector {
 
 	return &Vector{
-		slice:  reflect.MakeSlice(reflect.SliceOf(t), 0, 0),
-		typeof: t,
+		slice:  reflect.MakeSlice(reflect.SliceOf(T), 0, 0),
+		typeof: T,
 	}
 }
 
