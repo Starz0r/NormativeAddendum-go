@@ -2,6 +2,7 @@ package concat
 
 import (
 	"bytes"
+	"strings"
 )
 
 func Native(a, b string) string {
@@ -29,4 +30,10 @@ func Bytes(a, b string) (str string, n int, err error) {
 	n = amt1 + amt2
 	err = nil
 	return str, n, err
+}
+
+func Join(a, b string) string {
+	result := []string{a}
+	result = append(result, b)
+	return strings.Join(result, "")
 }
