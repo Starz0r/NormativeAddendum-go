@@ -4,6 +4,10 @@ import (
 	"bytes"
 )
 
+func Native(a, b string) string {
+	return a + b
+}
+
 func Bytes(a, b string) (str string, n int, err error) {
 	// Initalize Buffer
 	buf := new(bytes.Buffer)
