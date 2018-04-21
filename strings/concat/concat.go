@@ -37,3 +37,9 @@ func Join(a, b string) string {
 	result = append(result, b)
 	return strings.Join(result, "")
 }
+
+func JoinSep(a, b, sep string) string {
+	result := []string{a}
+	result = append(result, b)
+	return strings.Join(result, sep)
+}
