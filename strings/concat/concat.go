@@ -1,4 +1,4 @@
-package bytes
+package concat
 
 import (
 	"bytes"
