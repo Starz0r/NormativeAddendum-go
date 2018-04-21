@@ -43,3 +43,10 @@ func JoinSep(a, b, sep string) string {
 	result = append(result, b)
 	return strings.Join(result, sep)
 }
+
+func Builder(a, b string) string {
+	buf := new(strings.Builder)
+	buf.WriteString(a)
+	buf.WriteString(b)
+	return buf.String()
+}
